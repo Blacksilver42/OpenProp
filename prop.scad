@@ -1,13 +1,3 @@
-// CHANGELOG
-{
-// Oct 22 (Connor)
-//  - Section headers.
-//  - Moved hub to it’s own function.
-//  - Moved the for loop and such to it’s own function: main
-//  - Prototypes
-}
-
-
 // Works in openSCAD 2016.09.18 -- Last updated Oct 2, 2016
 
 
