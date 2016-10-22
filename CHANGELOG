@@ -1,0 +1,5 @@
+Oct 22 (Connor)
+ - Section headers.
+ - Moved hub to it’s own function.
+ - Moved the for loop and such to it’s own function: main
+ - Prototypes
