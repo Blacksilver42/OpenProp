@@ -6,8 +6,10 @@
 // GLOBALS
 // ##################################################
 
+
 //all units are in mm.
-I = 25.4; // <inches>/I
+//for inches: <amount in inches> / I
+I = 25.4;
 
 NUMBER_BLADES   = 3;
 PITCH_ANGLE     = 20;
@@ -22,6 +24,7 @@ BLADE_LENGTH    = PROP_DIAMETER/2 - SHAFT_DIAMETER/2;
 HUB_DIAMETER    = BLADE_WIDTH/1.5;
 HUB_THICKNESS   = sqrt(BLADE_WIDTH*BLADE_WIDTH + pow(BLADE_THICKNESS,2));
 DELTA           = 0.01;
+
 
 // ##################################################
 // PROTOTYPES
