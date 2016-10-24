@@ -1,4 +1,4 @@
-// Works in openSCAD 2016.09.18 -- Last updated Oct 2, 2016
+// Works in openSCAD 2015.03+ || Last updated Oct 2, 2016
 
 
 
@@ -20,9 +20,9 @@ BLADE_THICKNESS = 4;     // at thickest point
 BLADE_WIDTH     = 20;
 
 // No touchie.
-BLADE_LENGTH    = PROP_DIAMETER/2 - SHAFT_DIAMETER/2;
+BLADE_LENGTH    = PROP_DIAMETER/2; //they get clipped off, so it's fine.
 HUB_DIAMETER    = BLADE_WIDTH/1.5;
-HUB_THICKNESS   = sqrt(BLADE_WIDTH*BLADE_WIDTH + pow(BLADE_THICKNESS,2));
+HUB_THICKNESS   = sqrt(pow(BLADE_WIDTH,2) + pow(BLADE_THICKNESS,2));
 DELTA           = 0.01;
 
 
@@ -34,6 +34,7 @@ DELTA           = 0.01;
 module blade();
 module hub();
 module main();
+module prop();
 	
 	
 // ##################################################
@@ -41,7 +42,7 @@ module main();
 // ##################################################
 
 
-main();
+prop();
 
 
 // ##################################################
@@ -50,26 +51,21 @@ main();
 
 
 module blade() {
-	  color("yellow")
-    intersection() {
-        translate([0,0,-HUB_THICKNESS])
-					cylinder(d=PROP_DIAMETER, h=HUB_THICKNESS*2);
-        union () {
-            translate([0,0,BLADE_THICKNESS/2]) rotate([0,90,0]) {
-                cylinder(d=BLADE_THICKNESS, h=BLADE_LENGTH);
-            }
-
-            difference() {
-						echo(str("Fixing zero-width solid with DELTA=",DELTA,"..."));
-            translate([DELTA,0,0]){
-							cube([BLADE_LENGTH-2*DELTA, BLADE_WIDTH, BLADE_THICKNESS]);
-						}
-            rotate([atan(-BLADE_THICKNESS/BLADE_WIDTH),0,0])
-							translate([0,0,BLADE_THICKNESS])
-								cube([BLADE_LENGTH, BLADE_WIDTH, 2*BLADE_THICKNESS]);
-            }
-        }
-    }
+	color("yellow")
+	translate([0,0,BLADE_THICKNESS/2]) rotate([0,90,0]) {
+		cylinder(d=BLADE_THICKNESS, h=BLADE_LENGTH);
+	}//
+  difference() {
+		echo(str("[Prop>blade] Fixing zero-width solid with DELTA=",DELTA,"..."));
+		translate([DELTA,0,0]){
+			cube([BLADE_LENGTH-2*DELTA, BLADE_WIDTH, BLADE_THICKNESS]);
+		}
+		rotate([atan(-BLADE_THICKNESS/BLADE_WIDTH),0,0]){
+			translate([0,0,BLADE_THICKNESS]){
+				cube([BLADE_LENGTH, BLADE_WIDTH, 2*BLADE_THICKNESS]);
+			}
+		}
+	}
 }
 
 
@@ -86,7 +82,7 @@ module hub(){
 }
 
 
-module main(){
+module _prop(){ //DNU -- use prop() instead.
 	translate([-HUB_DIAMETER+5,5,HUB_THICKNESS-DELTA]){
 		color("red"){
 			linear_extrude(height=1)
@@ -103,6 +99,16 @@ module main(){
 					}
 				}
 			}
+		}
+	}
+}
+
+
+module prop(){
+	translate([0,0,-HUB_THICKNESS/2]){
+		intersection(){
+			cylinder(h=HUB_THICKNESS*2,r=PROP_DIAMETER/2);
+			_prop();
 		}
 	}
 }
