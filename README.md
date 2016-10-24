@@ -5,4 +5,4 @@ An openscad project to make a generic, easy-to-make-not-generic propellor that y
 
 OpenSCAD can be aquired at openscad.org
 
-By Connor King and Lawrence King.
+By Connor and Lawrence [REDACTED]
