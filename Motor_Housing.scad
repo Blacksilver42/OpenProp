@@ -35,12 +35,16 @@ difference() {// central hub
     cylinder(d=Hub_Body_Diameter, h=25);
 
 // use the matrix multiply beause resize is broken
-M=[  [1.05,  0,      0,  0],     // 5%
+  M=[  [1.05,  0,      0,  0],     // 5%
      [0,     1.05,   0,  0],
      [0,     0,      1,  1],     // move the motor up 1mm while we are at it
      [0,     0,      0,  1] ] ;
-multmatrix(M) motor(); // make it a little fatter so it slides into the hub}
+  multmatrix(M) motor(); // make it a little fatter so it slides into the hub
+}
+
 // color("Magenta", 0.6) translate([0,0,1]) motor(); // test, put the motor into the model
+
+
 // spokes
   rotate([90,0,0])
     translate([0,0,Motor_Diameter/2+Hub_Body_Thickness/2])
@@ -54,9 +58,10 @@ multmatrix(M) motor(); // make it a little fatter so it slides into the hub}
   rotate([0,-90,0])
     translate([0,0,Motor_Diameter/2+Hub_Body_Thickness/2])
       cylinder(d=Spoke_Diameter,h=Block_Body/2-(Motor_Diameter/2+Hub_Body_Thickness/2)-delta);
-  
+
+
   // the block
-  difference() {
+difference() {
   translate([0,0,Block_Body_Height/2-Spoke_Diameter/2+delta])
   cube([Block_Body,Block_Body,Block_Body_Height], center=true);
   translate([0,0,-Spoke_Diameter])
@@ -69,4 +74,4 @@ multmatrix(M) motor(); // make it a little fatter so it slides into the hub}
     cylinder(d=6, h=60);
   translate([-55,-55,-10])
     cylinder(d=6, h=60);
-  }
+}
