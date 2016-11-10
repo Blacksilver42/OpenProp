@@ -1,7 +1,6 @@
 // Works in openSCAD 2015.03+ || Last updated Oct 2, 2016
 
 
-
 // ##################################################
 // GLOBALS
 // ##################################################
@@ -27,7 +26,7 @@ BLADE_LENGTH    = PROP_DIAMETER/2;
 HUB_DIAMETER    = BLADE_WIDTH/1.5;
 HUB_THICKNESS   = sqrt(pow(BLADE_WIDTH,2) + pow(BLADE_THICKNESS,2));
 DELTA           = 0.01;
-$fn=20;
+$fn=200;
 
 // ##################################################
 // PROTOTYPES
@@ -46,9 +45,10 @@ module DEP_blade();
 // ##################################################
 // DO THINGS
 // ##################################################
+include <C:/Users/lking/Downloads/3D CAD/blade_hub.scad>
 
+rotate([0,0,15]) prop();
 
-prop();
 
 // ##################################################
 // FUNCTIONS
@@ -117,6 +117,8 @@ module hub(){
 			cylinder(h=HUB_THICKNESS,r=HUB_DIAMETER); //hub
 			translate([0,0,-HUB_THICKNESS/2]){ //hole
 				cylinder(h=2*HUB_THICKNESS, d=SHAFT_DIAMETER);
+            translate([0,0,HUB_THICKNESS/2-delta]) 
+                blade_hub(false, Screw_440_thread, Blade_Hub_Diameter+0.5);
 			}
 		}
 	}
@@ -124,33 +126,41 @@ module hub(){
 
 
 module _prop(){ //DNU -- use prop() instead.
-	translate([-HUB_DIAMETER+5,5,HUB_THICKNESS-DELTA]){
-		color("red"){
-			linear_extrude(height=1)
-				text("CK + LK",size=3); 
-		}
-	}
-	hub();
-	for(i=[0:NUMBER_BLADES-1]){
-		translate([0,0,HUB_THICKNESS/2]){
-			rotate([0,0,(360/NUMBER_BLADES)*i]){
-				translate([0,-BLADE_WIDTH/2,5]){
-					rotate([-PITCH_ANGLE, 0, 0]){
-						blade_wrapper();
-					}
-				}
-			}
-		}
-	}
+    difference() {
+        union() {
+            hub();
+            for(i=[0:NUMBER_BLADES-1]){
+                translate([0,0,HUB_THICKNESS/2]){
+                    rotate([0,0,(360/NUMBER_BLADES)*i]){
+                        translate([0,-BLADE_WIDTH/2,5]){
+                            rotate([-PITCH_ANGLE, 0, 0]){
+                                blade_wrapper();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        translate([-HUB_DIAMETER+4,-2,HUB_THICKNESS+DELTA-1]){
+            color("red"){
+                linear_extrude(height=1)
+                    text("CK  LK",size=4); 
+            }
+        }
+    }
 }
 
 
 module prop(){
 	translate([0,0,-HUB_THICKNESS/2]){
-		intersection(){
-			cylinder(h=HUB_THICKNESS*2,r=PROP_DIAMETER/2);
-			_prop();
-		}
+        difference() {
+            intersection(){
+                cylinder(h=HUB_THICKNESS*2,r=PROP_DIAMETER/2);
+                _prop();
+            }
+            translate([0,0,HUB_THICKNESS/2-delta]) 
+                blade_hub(false, Screw_440_thread, Blade_Hub_Diameter+0.5);
+        }
 	}
 }
 
