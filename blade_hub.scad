@@ -10,7 +10,7 @@ Gear_Diameter = 3.87;   // press fit
 Gear_Height = 5;
 Blade_Hub_Diameter=22;
 Blade_Hub_Height=Gear_Height/2+1;
-Screw_440_clear=25.4*0.112;
+Screw_440_clear=25.4*0.1285;
 Screw_440_thread=25.4*0.0813;
 
 
@@ -27,7 +27,7 @@ module blade_hub(master,SD,HD) {
       if (master) {
           // a hole to press-fit the gear
           translate([0,0,-delta])
-            cylinder(d=Gear_Diameter, h=Gear_Height);
+            cylinder(d=Gear_Diameter-.075, h=2*Gear_Height);
 
           // 3 holes for the screws
           rotate([0,0,0])

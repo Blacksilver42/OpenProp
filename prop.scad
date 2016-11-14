@@ -1,4 +1,4 @@
-// Works in openSCAD 2015.03+ || Last updated Oct 2, 2016
+// Works in openSCAD 2015.03+ || Last updated Nov 14, 2016
 
 
 // ##################################################
@@ -10,10 +10,10 @@
 //for inches: <amount in inches> / I
 I = 25.4;
 
-NUMBER_BLADES   = 3;
-PITCH_ANGLE     = 20;
+NUMBER_BLADES   = 2;
+PITCH_ANGLE     = 5;
 BLADE_LEN       = 100;
-PROP_DIAMETER   = 115;   // whole thing
+PROP_DIAMETER   = 120;   // whole thing
 SHAFT_DIAMETER  = 1.5;
 BLADE_WIDTH     = 20;
 
@@ -45,9 +45,9 @@ module DEP_blade();
 // ##################################################
 // DO THINGS
 // ##################################################
-include <C:/Users/lking/Downloads/3D CAD/blade_hub.scad>
+include <blade_hub.scad>
 
-rotate([0,0,15]) prop();
+rotate([0,0,-15]) prop();
 
 
 // ##################################################
@@ -57,7 +57,7 @@ rotate([0,0,15]) prop();
 
 module blade(){
 	translate([0,0,0])
-		rotate([90,0,90])
+		rotate([-90,0,90])
 			scale([BLADE_WIDTH,BLADE_WIDTH,1])
 				linear_extrude(BLADE_LEN)
 					polygon( // mmm, justified arrays
@@ -106,7 +106,7 @@ module blade(){
 
 module blade_wrapper() {
 	translate([SHAFT_DIAMETER+1,0,0])
-	blade();
+        blade();
 }
 
 
@@ -145,6 +145,12 @@ module _prop(){ //DNU -- use prop() instead.
             color("red"){
                 linear_extrude(height=1)
                     text("CK  LK",size=4); 
+            }
+        }
+        translate([-HUB_DIAMETER+10,-8,HUB_THICKNESS+DELTA-1]){
+            color("red"){
+                linear_extrude(height=1)
+                    text("-5",size=4); 
             }
         }
     }

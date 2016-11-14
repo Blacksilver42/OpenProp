@@ -35,8 +35,8 @@ difference() {
 // central hub
 translate([0,0,-Spoke_Diameter/2]) cylinder(d=Hub_Body_Diameter, h=25);
 // use the matrix multiply beause resize is broken
-M=[     [1.05,  0,      0,  0],     // 5%
-        [0,     1.05,   0,  0],
+M=[     [1.01,  0,      0,  0],     // 1%
+        [0,     1.01,   0,  0],
         [0,     0,      1,  1],     // move the motor up 1mm while we are at it
         [0,     0,      0,  1] ] ;
 multmatrix(M)
